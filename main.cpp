@@ -18,15 +18,20 @@ public:
 	int DoDai;
 	CONRAN() {
 		DoDai = 3;
-		A[0].x = 10; A[0].y = 10;
+		A[0].x = 12; A[0].y = 10;
 		A[1].x = 11; A[1].y = 10;
-		A[2].x = 12; A[2].y = 10;
+		A[2].x = 10; A[2].y = 10;
 	}
-	void Ve(Point Qua) {
-		for (int i = 0; i < DoDai; i++) {
+	void Ve(Point Qua, int Huong) {
+		for (int i = 1; i < DoDai; i++) {
 			gotoxy(A[i].x, A[i].y);
 			cout << "X";
 		}
+		gotoxy(A[0].x, A[0].y);
+		if (Huong == 0) cout << ">";
+		else if (Huong == 1) cout << "v";
+		else if (Huong == 2) cout << "<";
+		else cout << "^";
 		gotoxy(Qua.x, Qua.y);
 		cout << "*";
 	}
@@ -48,13 +53,19 @@ public:
 		A[0] = newHead;
 	}
 };
-void VeKhung(){
-    for (int i = MINX ; i<=MAXX ; i++)
-        for (int j = MINX ; j<=MAXY ; j++)
-            if ((i==MINX) || (i==MAXX) || (j==MINY) || (j==MAXY)){
-            gotoxy(i,j);
-            printf("+");
+void VeKhung()
+{
+    for (int i = MINX; i <= MAXX; i++)
+    {
+        for (int j = MINY; j <= MAXY; j++)
+        {
+            if (i == MINX || i == MAXX || j == MINY || j == MAXY)
+            {
+                gotoxy(i, j);
+                cout << "+";
+            }
         }
+    }
 }
 int main()
 {
@@ -75,10 +86,28 @@ int main()
 		}
 		system("cls");
 		VeKhung();
-		r.Ve(Qua);
+		r.Ve(Qua, Huong);
 		gotoxy(MINX, MAXY + 1);
 		cout << "Score: " << (r.DoDai - 3);
 		r.DiChuyen(Huong, Qua);
+
+		bool hitBorder = r.A[0].x <= MINX || r.A[0].x >= MAXX
+			|| r.A[0].y <= MINY || r.A[0].y >= MAXY;
+		bool hitSelf = false;
+		for (int i = 1; i < r.DoDai; i++) {
+			if (r.A[0].x == r.A[i].x && r.A[0].y == r.A[i].y) {
+				hitSelf = true;
+				break;
+			}
+		}
+		if (hitBorder || hitSelf) {
+			gotoxy(MINX, MAXY + 2);
+			cout << "Game Over! " << (hitBorder ? "Hit the wall." : "Hit yourself.")
+				<< " Score: " << (r.DoDai - 3) << ". Press any key to exit.";
+			getch();
+			break;
+		}
+
 		Sleep(300);
 	}
 
