@@ -39,17 +39,21 @@ public:
 	}
 
 	void DiChuyen(int Huong, Point& Qua) {
-		for (int i = DoDai - 1; i > 0; i--)
-			A[i] = A[i - 1];
-		if (Huong == 0) A[0].x = A[0].x + 1;
-		if (Huong == 1) A[0].y = A[0].y + 1;
-		if (Huong == 2) A[0].x = A[0].x - 1;
-		if (Huong == 3) A[0].y = A[0].y - 1;
-		if ((A[0].x == Qua.x) && (A[0].y == Qua.y)) {
+		Point newHead = A[0];
+		if (Huong == 0) newHead.x += 1;
+		if (Huong == 1) newHead.y += 1;
+		if (Huong == 2) newHead.x -= 1;
+		if (Huong == 3) newHead.y -= 1;
+
+		if (newHead.x == Qua.x && newHead.y == Qua.y) {
 			DoDai++;
 			Qua.x = rand() % (MAXX - MINX - 1) + MINX + 1;
 			Qua.y = rand() % (MAXY - MINY - 1) + MINY + 1;
 		}
+
+		for (int i = DoDai - 1; i > 0; i--)
+			A[i] = A[i - 1];
+		A[0] = newHead;
 	}
 };
 
