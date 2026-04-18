@@ -7,6 +7,9 @@
 #define MINY 2
 #define MAXX 35
 #define MAXY 20
+
+constexpr int MAX_LENGTH = (MAXX - MINX - 1) * (MAXY - MINY - 1);
+
 using namespace std;
 void gotoxy(int column, int line);
 struct Point {
@@ -14,7 +17,7 @@ struct Point {
 };
 class CONRAN {
 public:
-	struct Point A[100];
+	struct Point A[MAX_LENGTH];
 	int DoDai;
 	CONRAN() {
 		DoDai = 3;
@@ -32,8 +35,10 @@ public:
 		else if (Huong == 1) cout << "v";
 		else if (Huong == 2) cout << "<";
 		else cout << "^";
-		gotoxy(Qua.x, Qua.y);
-		cout << "*";
+		if (Qua.x >= 0) {
+			gotoxy(Qua.x, Qua.y);
+			cout << "*";
+		}
 	}
 	void DiChuyen(int Huong, Point &Qua) {
 		Point newHead = A[0];
@@ -43,13 +48,16 @@ public:
 		if (Huong == 3) newHead.y -= 1;
 
 		bool eating = newHead.x == Qua.x && newHead.y == Qua.y;
-		if (eating) DoDai++;
+		if (eating && DoDai < MAX_LENGTH) DoDai++;
 
 		for (int i = DoDai - 1; i > 0; i--)
 			A[i] = A[i - 1];
 		A[0] = newHead;
 
-		if (eating) Qua = SpawnFood();
+		if (eating) {
+			if (DoDai < MAX_LENGTH) Qua = SpawnFood();
+			else { Qua.x = -1; Qua.y = -1; }
+		}
 	}
 
 	Point SpawnFood() {
