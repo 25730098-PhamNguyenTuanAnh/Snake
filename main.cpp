@@ -76,6 +76,8 @@ int main()
 		system("cls");
 		VeKhung();
 		r.Ve(Qua);
+		gotoxy(MINX, MAXY + 1);
+		cout << "Score: " << (r.DoDai - 3);
 		r.DiChuyen(Huong, Qua);
 		Sleep(300);
 	}
