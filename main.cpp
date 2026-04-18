@@ -104,79 +104,116 @@ void VeKhung()
 int main()
 {
 	HideCursor();
-	system("cls");
-	CONRAN r;
-	int Huong = 0;
-	int t;
-	Point Qua;
 	srand((int)time(0));
-	Qua = r.SpawnFood();
-	VeKhung();
-	r.Ve(Qua, Huong);
-	gotoxy(MINX, MAXY + 1);
-	cout << "Score: 0";
-	gotoxy(MAXX + 3, MINY);
-	cout << "Controls";
-	gotoxy(MAXX + 3, MINY + 1);
-	cout << "--------";
-	gotoxy(MAXX + 3, MINY + 2);
-	cout << "Move: WASD or arrows";
-	gotoxy(MAXX + 3, MINY + 3);
-	cout << "Eat '*' to grow";
-	gotoxy(MAXX + 3, MINY + 4);
-	cout << "Avoid '+' walls and";
-	gotoxy(MAXX + 3, MINY + 5);
-	cout << "your own body";
-	while (1) {
-		if (_kbhit()) {
-			t = _getch();
-			int newHuong = -1;
-			if (t == 0xE0 || t == 0) {
-				t = _getch();
-				if (t == 75) newHuong = 2;
-				else if (t == 72) newHuong = 3;
-				else if (t == 77) newHuong = 0;
-				else if (t == 80) newHuong = 1;
-			}
-			else {
-				if (t == 'a') newHuong = 2;
-				else if (t == 'w') newHuong = 3;
-				else if (t == 'd') newHuong = 0;
-				else if (t == 's') newHuong = 1;
-			}
-			bool is180 = (newHuong ^ Huong) == 2;
-			if (newHuong != -1 && !is180) Huong = newHuong;
-		}
+	bool quit = false;
 
-		Point prevTail = r.A[r.DoDai - 1];
-		int prevLen = r.DoDai;
-		r.DiChuyen(Huong, Qua);
-		if (r.DoDai == prevLen) {
-			gotoxy(prevTail.x, prevTail.y);
-			cout << " ";
-		}
+	while (!quit) {
+		system("cls");
+		CONRAN r;
+		int Huong = 0;
+		int t;
+		Point Qua = r.SpawnFood();
+		bool paused = false;
+		bool restart = false;
+		bool gameOver = false;
+		const char* reason = "";
+
+		VeKhung();
 		r.Ve(Qua, Huong);
 		gotoxy(MINX, MAXY + 1);
-		cout << "Score: " << (r.DoDai - 3);
+		cout << "Score: 0";
 
-		bool hitBorder = r.A[0].x <= MINX || r.A[0].x >= MAXX
-			|| r.A[0].y <= MINY || r.A[0].y >= MAXY;
-		bool hitSelf = false;
-		for (int i = 1; i < r.DoDai; i++) {
-			if (r.A[0].x == r.A[i].x && r.A[0].y == r.A[i].y) {
-				hitSelf = true;
-				break;
+		gotoxy(MAXX + 3, MINY);
+		cout << "Controls";
+		gotoxy(MAXX + 3, MINY + 1);
+		cout << "--------";
+		gotoxy(MAXX + 3, MINY + 2);
+		cout << "Move:    WASD / arrows";
+		gotoxy(MAXX + 3, MINY + 3);
+		cout << "Pause:   P";
+		gotoxy(MAXX + 3, MINY + 4);
+		cout << "Restart: R";
+		gotoxy(MAXX + 3, MINY + 5);
+		cout << "Quit:    Q";
+		gotoxy(MAXX + 3, MINY + 7);
+		cout << "Eat '*' to grow";
+		gotoxy(MAXX + 3, MINY + 8);
+		cout << "Avoid '+' walls and";
+		gotoxy(MAXX + 3, MINY + 9);
+		cout << "your own body";
+
+		while (!restart && !quit && !gameOver) {
+			if (_kbhit()) {
+				t = _getch();
+				int newHuong = -1;
+				if (t == 0xE0 || t == 0) {
+					t = _getch();
+					if (t == 75) newHuong = 2;
+					else if (t == 72) newHuong = 3;
+					else if (t == 77) newHuong = 0;
+					else if (t == 80) newHuong = 1;
+				}
+				else {
+					if (t == 'p' || t == 'P') {
+						paused = !paused;
+						gotoxy(MINX, MAXY + 2);
+						cout << (paused ? "Paused.             " : "                    ");
+					}
+					else if (t == 'q' || t == 'Q') quit = true;
+					else if (t == 'r' || t == 'R') restart = true;
+					else if (t == 'a') newHuong = 2;
+					else if (t == 'w') newHuong = 3;
+					else if (t == 'd') newHuong = 0;
+					else if (t == 's') newHuong = 1;
+				}
+				bool is180 = (newHuong ^ Huong) == 2;
+				if (newHuong != -1 && !is180) Huong = newHuong;
+			}
+
+			if (paused) {
+				Sleep(50);
+				continue;
+			}
+
+			Point prevTail = r.A[r.DoDai - 1];
+			int prevLen = r.DoDai;
+			r.DiChuyen(Huong, Qua);
+			if (r.DoDai == prevLen) {
+				gotoxy(prevTail.x, prevTail.y);
+				cout << " ";
+			}
+			r.Ve(Qua, Huong);
+			gotoxy(MINX, MAXY + 1);
+			cout << "Score: " << (r.DoDai - 3);
+
+			bool hitBorder = r.A[0].x <= MINX || r.A[0].x >= MAXX
+				|| r.A[0].y <= MINY || r.A[0].y >= MAXY;
+			bool hitSelf = false;
+			for (int i = 1; i < r.DoDai; i++) {
+				if (r.A[0].x == r.A[i].x && r.A[0].y == r.A[i].y) {
+					hitSelf = true;
+					break;
+				}
+			}
+			if (hitBorder || hitSelf) {
+				gameOver = true;
+				reason = hitBorder ? "Hit the wall." : "Hit yourself.";
+			}
+
+			Sleep(300);
+		}
+
+		if (gameOver) {
+			gotoxy(MINX, MAXY + 2);
+			cout << "Game Over! " << reason << " Score: " << (r.DoDai - 3) << ".";
+			gotoxy(MINX, MAXY + 3);
+			cout << "Press R to restart, Q to quit.";
+			while (true) {
+				int k = _getch();
+				if (k == 'r' || k == 'R') break;
+				if (k == 'q' || k == 'Q') { quit = true; break; }
 			}
 		}
-		if (hitBorder || hitSelf) {
-			gotoxy(MINX, MAXY + 2);
-			cout << "Game Over! " << (hitBorder ? "Hit the wall." : "Hit yourself.")
-				<< " Score: " << (r.DoDai - 3) << ". Press any key to exit.";
-			_getch();
-			break;
-		}
-
-		Sleep(300);
 	}
 
 	return 0;
