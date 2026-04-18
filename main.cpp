@@ -116,6 +116,7 @@ int main()
 		bool paused = false;
 		bool restart = false;
 		bool gameOver = false;
+		bool won = false;
 		const char* reason = "";
 
 		VeKhung();
@@ -195,7 +196,11 @@ int main()
 					break;
 				}
 			}
-			if (hitBorder || hitSelf) {
+			if (r.DoDai >= MAX_LENGTH) {
+				gameOver = true;
+				won = true;
+			}
+			else if (hitBorder || hitSelf) {
 				gameOver = true;
 				reason = hitBorder ? "Hit the wall." : "Hit yourself.";
 			}
@@ -205,7 +210,12 @@ int main()
 
 		if (gameOver) {
 			gotoxy(MINX, MAXY + 2);
-			cout << "Game Over! " << reason << " Score: " << (r.DoDai - 3) << ".";
+			if (won) {
+				cout << "You win! Final score: " << (r.DoDai - 3) << ".";
+			}
+			else {
+				cout << "Game Over! " << reason << " Score: " << (r.DoDai - 3) << ".";
+			}
 			gotoxy(MINX, MAXY + 3);
 			cout << "Press R to restart, Q to quit.";
 			while (true) {
