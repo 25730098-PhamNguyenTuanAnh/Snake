@@ -14,6 +14,7 @@ constexpr int MAX_LENGTH = (MAXX - MINX - 1) * (MAXY - MINY - 1);
 using namespace std;
 
 void gotoxy(int column, int line);
+void HideCursor();
 
 struct Point {
 	int x, y;
@@ -102,6 +103,7 @@ void VeKhung()
 
 int main()
 {
+	HideCursor();
 	CONRAN r;
 	int Huong = 0;
 	int t;
@@ -167,4 +169,12 @@ void gotoxy(int column, int line)
 		GetStdHandle(STD_OUTPUT_HANDLE),
 		coord
 	);
+}
+
+void HideCursor()
+{
+	CONSOLE_CURSOR_INFO info;
+	info.dwSize = 1;
+	info.bVisible = FALSE;
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
 }
