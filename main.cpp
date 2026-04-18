@@ -79,10 +79,13 @@ int main()
 	while (1) {
 		if (kbhit()) {
 			t = getch();
-			if (t == 'a') Huong = 2;
-			if (t == 'w') Huong = 3;
-			if (t == 'd') Huong = 0;
-			if (t == 'x') Huong = 1;
+			int newHuong = -1;
+			if (t == 'a') newHuong = 2;
+			else if (t == 'w') newHuong = 3;
+			else if (t == 'd') newHuong = 0;
+			else if (t == 'x') newHuong = 1;
+			bool is180 = (newHuong ^ Huong) == 2;
+			if (newHuong != -1 && !is180) Huong = newHuong;
 		}
 		system("cls");
 		VeKhung();
