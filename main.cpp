@@ -101,6 +101,8 @@ int main()
 		system("cls");
 		VeKhung();
 		r.Ve(Qua);
+		gotoxy(MINX, MAXY + 1);
+		cout << "Score: " << (r.DoDai - 3);
 		r.DiChuyen(Huong, Qua);
 
 		bool hitBorder = r.A[0].x <= MINX || r.A[0].x >= MAXX
