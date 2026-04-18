@@ -115,6 +115,18 @@ int main()
 	r.Ve(Qua, Huong);
 	gotoxy(MINX, MAXY + 1);
 	cout << "Score: 0";
+	gotoxy(MAXX + 3, MINY);
+	cout << "Controls";
+	gotoxy(MAXX + 3, MINY + 1);
+	cout << "--------";
+	gotoxy(MAXX + 3, MINY + 2);
+	cout << "Move: WASD or arrows";
+	gotoxy(MAXX + 3, MINY + 3);
+	cout << "Eat '*' to grow";
+	gotoxy(MAXX + 3, MINY + 4);
+	cout << "Avoid '+' walls and";
+	gotoxy(MAXX + 3, MINY + 5);
+	cout << "your own body";
 	while (1) {
 		if (_kbhit()) {
 			t = _getch();
