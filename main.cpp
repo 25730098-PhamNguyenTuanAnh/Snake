@@ -50,15 +50,31 @@ public:
 		if (Huong == 2) newHead.x -= 1;
 		if (Huong == 3) newHead.y -= 1;
 
-		if (newHead.x == Qua.x && newHead.y == Qua.y) {
-			DoDai++;
-			Qua.x = rand() % (MAXX - MINX - 1) + MINX + 1;
-			Qua.y = rand() % (MAXY - MINY - 1) + MINY + 1;
-		}
+		bool eating = newHead.x == Qua.x && newHead.y == Qua.y;
+		if (eating) DoDai++;
 
 		for (int i = DoDai - 1; i > 0; i--)
 			A[i] = A[i - 1];
 		A[0] = newHead;
+
+		if (eating) Qua = SpawnFood();
+	}
+
+	Point SpawnFood() {
+		Point p;
+		bool onSnake;
+		do {
+			p.x = rand() % (MAXX - MINX - 1) + MINX + 1;
+			p.y = rand() % (MAXY - MINY - 1) + MINY + 1;
+			onSnake = false;
+			for (int i = 0; i < DoDai; i++) {
+				if (A[i].x == p.x && A[i].y == p.y) {
+					onSnake = true;
+					break;
+				}
+			}
+		} while (onSnake);
+		return p;
 	}
 };
 
@@ -84,8 +100,7 @@ int main()
 	int t;
 	Point Qua;
 	srand((int)time(0));
-	Qua.x = rand() % (MAXX - MINX - 1) + MINX + 1;
-	Qua.y = rand() % (MAXY - MINY - 1) + MINY + 1;
+	Qua = r.SpawnFood();
 	while (1) {
 		if (_kbhit()) {
 			t = _getch();
