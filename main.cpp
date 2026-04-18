@@ -126,7 +126,13 @@ int main()
 				break;
 			}
 		}
-		if (hitBorder || hitSelf) {
+		if (r.DoDai >= MAX_LENGTH) {
+			gotoxy(MINX, MAXY + 2);
+			cout << "You win! Final score: " << (r.DoDai - 3) << ". Press any key to exit.";
+			getch();
+			break;
+		}
+		else if (hitBorder || hitSelf) {
 			gotoxy(MINX, MAXY + 2);
 			cout << "Game Over! " << (hitBorder ? "Hit the wall." : "Hit yourself.")
 				<< " Score: " << (r.DoDai - 3) << ". Press any key to exit.";
