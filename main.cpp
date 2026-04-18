@@ -17,11 +17,16 @@ public:
 		A[1].x = 11; A[1].y = 10;
 		A[2].x = 10; A[2].y = 10;
 	}
-	void Ve() {
-		for (int i = 0; i < DoDai; i++) {
+	void Ve(int Huong) {
+		for (int i = 1; i < DoDai; i++) {
 			gotoxy(A[i].x, A[i].y);
 			cout << "X";
 		}
+		gotoxy(A[0].x, A[0].y);
+		if (Huong == 0) cout << ">";
+		else if (Huong == 1) cout << "v";
+		else if (Huong == 2) cout << "<";
+		else cout << "^";
 	}
 	void DiChuyen(int Huong) {
 		for (int i = DoDai - 1; i > 0;i--)
@@ -68,7 +73,7 @@ int main()
 		}
 		system("cls");
 		VeKhung();
-		r.Ve();
+		r.Ve(Huong);
 		r.DiChuyen(Huong);
 
 		bool hitBorder = r.A[0].x <= MINX || r.A[0].x >= MAXX
