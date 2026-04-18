@@ -2,6 +2,11 @@
 #include <windows.h>
 #include <cstdlib>
 #include <conio.h>
+#include <time.h>
+#define MINX 2
+#define MINY 2
+#define MAXX 35
+#define MAXY 20
 using namespace std;
 void gotoxy(int column, int line);
 struct Point {
@@ -17,40 +22,72 @@ public:
 		A[1].x = 11; A[1].y = 10;
 		A[2].x = 12; A[2].y = 10;
 	}
-	void Ve() {
+	void Ve(Point Qua) {
 		for (int i = 0; i < DoDai; i++) {
 			gotoxy(A[i].x, A[i].y);
 			cout << "X";
 		}
+		gotoxy(Qua.x, Qua.y);
+		cout << "*";
 	}
-	void DiChuyen(int Huong) {
-		for (int i = DoDai - 1; i > 0;i--)
+	void DiChuyen(int Huong, Point& Qua) {
+		for (int i = DoDai - 1; i > 0; i--)
 			A[i] = A[i - 1];
 		if (Huong == 0) A[0].x = A[0].x + 1;
 		if (Huong == 1) A[0].y = A[0].y + 1;
 		if (Huong == 2) A[0].x = A[0].x - 1;
 		if (Huong == 3) A[0].y = A[0].y - 1;
-
+		if ((A[0].x == Qua.x) && (A[0].y == Qua.y)) {
+			DoDai++;
+			Qua.x = rand() % (MAXX - MINX) + MINX;
+			Qua.y = rand() % (MAXY - MINY) + MINY;
+		}
 	}
 };
-
+void VeKhung()
+{
+	for (int i = MINX; i <= MAXX; i++)
+	{
+		for (int j = MINY; j <= MAXY; j++)
+		{
+			if (i == MINX || i == MAXX || j == MINY || j == MAXY)
+			{
+				gotoxy(i, j);
+				cout << "*";
+			}
+		}
+	}
+}
 int main()
 {
 	CONRAN r;
 	int Huong = 0;
-	char t;
-
+	int t;
+	Point Qua;
+	srand((int)time(0));
+	Qua.x = rand() % (MAXX - MINX) + MINX;
+	Qua.y = rand() % (MAXY - MINY) + MINY;
 	while (1) {
-		if (kbhit()) {
-			t = getch();
-			if (t == 'a') Huong = 2;
-			if (t == 'w') Huong = 3;
-			if (t == 'd') Huong = 0;
-			if (t == 'x') Huong = 1;
+		if (_kbhit()) {
+			t = _getch();
+			if (t == 0xE0 || t == 0) {
+				t = _getch();
+				if (t == 75) Huong = 2;
+				if (t == 72) Huong = 3;
+				if (t == 77) Huong = 0;
+				if (t == 80) Huong = 1;
+			}
+			else {
+				if (t == 'a') Huong = 2;
+				if (t == 'w') Huong = 3;
+				if (t == 'd') Huong = 0;
+				if (t == 's') Huong = 1;
+			}
 		}
 		system("cls");
-		r.Ve();
-		r.DiChuyen(Huong);
+		VeKhung();
+		r.Ve(Qua);
+		r.DiChuyen(Huong, Qua);
 		Sleep(300);
 	}
 
@@ -68,4 +105,3 @@ void gotoxy(int column, int line)
 		coord
 	);
 }
-
