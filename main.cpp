@@ -89,19 +89,22 @@ int main()
 	while (1) {
 		if (_kbhit()) {
 			t = _getch();
+			int newHuong = -1;
 			if (t == 0xE0 || t == 0) {
 				t = _getch();
-				if (t == 75) Huong = 2;
-				if (t == 72) Huong = 3;
-				if (t == 77) Huong = 0;
-				if (t == 80) Huong = 1;
+				if (t == 75) newHuong = 2;
+				else if (t == 72) newHuong = 3;
+				else if (t == 77) newHuong = 0;
+				else if (t == 80) newHuong = 1;
 			}
 			else {
-				if (t == 'a') Huong = 2;
-				if (t == 'w') Huong = 3;
-				if (t == 'd') Huong = 0;
-				if (t == 's') Huong = 1;
+				if (t == 'a') newHuong = 2;
+				else if (t == 'w') newHuong = 3;
+				else if (t == 'd') newHuong = 0;
+				else if (t == 's') newHuong = 1;
 			}
+			bool is180 = (newHuong ^ Huong) == 2;
+			if (newHuong != -1 && !is180) Huong = newHuong;
 		}
 		system("cls");
 		VeKhung();
