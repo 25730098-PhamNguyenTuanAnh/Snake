@@ -161,10 +161,10 @@ int main()
 					}
 					else if (t == 'q' || t == 'Q') quit = true;
 					else if (t == 'r' || t == 'R') restart = true;
-					else if (t == 'a') newHuong = 2;
-					else if (t == 'w') newHuong = 3;
-					else if (t == 'd') newHuong = 0;
-					else if (t == 's') newHuong = 1;
+					else if (t == 'a' || t == 'A') newHuong = 2;
+					else if (t == 'w' || t == 'W') newHuong = 3;
+					else if (t == 'd' || t == 'D') newHuong = 0;
+					else if (t == 's' || t == 'S') newHuong = 1;
 				}
 				bool is180 = (newHuong ^ Huong) == 2;
 				if (newHuong != -1 && !is180) Huong = newHuong;
