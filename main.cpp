@@ -104,12 +104,17 @@ void VeKhung()
 int main()
 {
 	HideCursor();
+	system("cls");
 	CONRAN r;
 	int Huong = 0;
 	int t;
 	Point Qua;
 	srand((int)time(0));
 	Qua = r.SpawnFood();
+	VeKhung();
+	r.Ve(Qua, Huong);
+	gotoxy(MINX, MAXY + 1);
+	cout << "Score: 0";
 	while (1) {
 		if (_kbhit()) {
 			t = _getch();
@@ -130,12 +135,17 @@ int main()
 			bool is180 = (newHuong ^ Huong) == 2;
 			if (newHuong != -1 && !is180) Huong = newHuong;
 		}
-		system("cls");
-		VeKhung();
+
+		Point prevTail = r.A[r.DoDai - 1];
+		int prevLen = r.DoDai;
+		r.DiChuyen(Huong, Qua);
+		if (r.DoDai == prevLen) {
+			gotoxy(prevTail.x, prevTail.y);
+			cout << " ";
+		}
 		r.Ve(Qua, Huong);
 		gotoxy(MINX, MAXY + 1);
 		cout << "Score: " << (r.DoDai - 3);
-		r.DiChuyen(Huong, Qua);
 
 		bool hitBorder = r.A[0].x <= MINX || r.A[0].x >= MAXX
 			|| r.A[0].y <= MINY || r.A[0].y >= MAXY;
