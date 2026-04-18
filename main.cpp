@@ -29,11 +29,16 @@ public:
 		A[2].x = 10; A[2].y = 10;
 	}
 
-	void Ve(Point Qua) {
-		for (int i = 0; i < DoDai; i++) {
+	void Ve(Point Qua, int Huong) {
+		for (int i = 1; i < DoDai; i++) {
 			gotoxy(A[i].x, A[i].y);
 			cout << "X";
 		}
+		gotoxy(A[0].x, A[0].y);
+		if (Huong == 0) cout << ">";
+		else if (Huong == 1) cout << "v";
+		else if (Huong == 2) cout << "<";
+		else cout << "^";
 		gotoxy(Qua.x, Qua.y);
 		cout << "*";
 	}
@@ -100,7 +105,7 @@ int main()
 		}
 		system("cls");
 		VeKhung();
-		r.Ve(Qua);
+		r.Ve(Qua, Huong);
 		gotoxy(MINX, MAXY + 1);
 		cout << "Score: " << (r.DoDai - 3);
 		r.DiChuyen(Huong, Qua);
