@@ -2,6 +2,14 @@
 
 A simple console Snake game (Windows only, uses `<windows.h>` and `<conio.h>`).
 
+## Members
+
+| Role            | MSSV     | Ho va ten               | GitHub                                                                   |
+| :-------------- | :------- | :---------------------- | :----------------------------------------------------------------------- |
+| SV1 (Team lead) | 25730098 | Pham Nguyen Tuan Anh    | [@25730098-PhamNguyenTuanAnh](https://github.com/25730098-PhamNguyenTuanAnh) |
+| SV2 (Ve khung)  | 25730140 | Huynh An Loc Son        | [@25730140huynhanlocson](https://github.com/25730140huynhanlocson)       |
+| SV3 (An moi)    | 25730107 | Ho Dac Minh Duc         | [@25730107-HoDacMinhDuc](https://github.com/25730107-HoDacMinhDuc)       |
+
 ## Demo
 
 ![gameplay](docs/gameplay.gif)
