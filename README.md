@@ -2,6 +2,10 @@
 
 A simple console Snake game (Windows only, uses `<windows.h>` and `<conio.h>`).
 
+## Demo
+
+![gameplay](docs/gameplay.gif)
+
 ## Developed with
 
 Visual Studio 2022 (C++ Empty Project).
